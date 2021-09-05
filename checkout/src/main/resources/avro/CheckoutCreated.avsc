@@ -5,7 +5,11 @@
   "fields": [
     {
       "name": "checkoutCode",
-      "type": ["string", "null"]
+      "type": ["string"]
+    },
+    {
+      "name": "status",
+      "type": ["string"]
     }
   ]
 }

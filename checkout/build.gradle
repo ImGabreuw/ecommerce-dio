@@ -37,6 +37,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka-streams'
     implementation "io.confluent:kafka-avro-serializer:${kafkaAvroVersion}"
 
+
     def lombok = 'org.projectlombok:lombok'
     compileOnly lombok
     annotationProcessor lombok
