@@ -20,10 +20,6 @@ public class CheckoutCreatedListener {
 
     @StreamListener(CheckoutProcessor.INPUT)
     public void handler(CheckoutCreatedEvent event) {
-        // TODO Processar pagamento em um Gateway (PagSeguro, MercadoPago, etc)
-        // TODO Salvar os dados de pagamento
-        // TODO Enviar o evento com o pagamento processado
-
         Payment payment = paymentService
                 .create(event)
                 .orElseThrow();
