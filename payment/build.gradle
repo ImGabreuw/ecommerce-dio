@@ -1,12 +1,13 @@
 plugins {
+    id "com.github.davidmc24.gradle.plugin.avro" version "1.2.0"
     id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
 
-group = 'com.hatanaka.ecommerce'
+group = 'me.gabreuw'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '14'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -16,18 +17,30 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://packages.confluent.io/maven/'
+    }
 }
 
 ext {
     set('springCloudVersion', "Hoxton.SR6")
+    set('kafkaAvroVersion', "5.5.0")
+    set('apacheAvroVersion', "1.10.1")
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation "io.confluent:kafka-avro-serializer:${kafkaAvroVersion}"
+
+    compileOnly "org.apache.avro:avro:${apacheAvroVersion}"
+
+    def lombok= 'org.projectlombok:lombok'
+    compileOnly lombok
+    annotationProcessor lombok
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -42,4 +55,12 @@ dependencyManagement {
 
 test {
     useJUnitPlatform()
+}
+
+avro {
+    fieldVisibility = "PRIVATE"
+}
+
+generateAvroJava {
+    source 'src/main/resources/avro'
 }
